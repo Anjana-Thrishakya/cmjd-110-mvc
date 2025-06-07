@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Anjana
  */
 public class ItemForm extends javax.swing.JFrame {
-    
+
     private ItemController itemController = new ItemController();
 
     /**
@@ -93,9 +93,19 @@ public class ItemForm extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         tblItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,10 +212,17 @@ public class ItemForm extends javax.swing.JFrame {
         searchItem();
     }//GEN-LAST:event_tblItemMouseClicked
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        updateItem();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        deleteItem();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
@@ -228,18 +245,18 @@ public class ItemForm extends javax.swing.JFrame {
 
     private void saveItem() {
         ItemDto itemDto = new ItemDto(
-                txtCode.getText(), 
-                txtDesc.getText(), 
-                txtPack.getText(), 
-                Double.parseDouble(txtUnit.getText()), 
+                txtCode.getText(),
+                txtDesc.getText(),
+                txtPack.getText(),
+                Double.parseDouble(txtUnit.getText()),
                 Integer.parseInt(txtQoh.getText()));
-        
+
         System.out.println(itemDto);
-        
+
         try {
             String resp = itemController.saveItem(itemDto);
             JOptionPane.showMessageDialog(this, resp);
-            
+
             loadTable();
             clear();
         } catch (Exception e) {
@@ -248,20 +265,20 @@ public class ItemForm extends javax.swing.JFrame {
     }
 
     private void loadTable() {
-        String [] columens = {"Item Code", "Description", "Pack Size", "Unit Price", "Qty On Hand"};
+        String[] columens = {"Item Code", "Description", "Pack Size", "Unit Price", "Qty On Hand"};
         DefaultTableModel dtm = new DefaultTableModel(columens, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         tblItem.setModel(dtm);
-        
+
         try {
             ArrayList<ItemDto> itemDtos = itemController.getAll();
             for (ItemDto itemDto : itemDtos) {
-                Object[] rowData = {itemDto.getCode(), itemDto.getDesc(), itemDto.getPack()
-                , itemDto.getUnitPrice(), itemDto.getQoh()};
-                
+                Object[] rowData = {itemDto.getCode(), itemDto.getDesc(), itemDto.getPack(),
+                     itemDto.getUnitPrice(), itemDto.getQoh()};
+
                 dtm.addRow(rowData);
             }
         } catch (Exception e) {
@@ -286,7 +303,39 @@ public class ItemForm extends javax.swing.JFrame {
             txtPack.setText(itemDto.getPack());
             txtQoh.setText(Integer.toString(itemDto.getQoh()));
             txtUnit.setText(Double.toString(itemDto.getUnitPrice()));
-            
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void updateItem() {
+        ItemDto itemDto = new ItemDto(
+                txtCode.getText(),
+                txtDesc.getText(),
+                txtPack.getText(),
+                Double.parseDouble(txtUnit.getText()),
+                Integer.parseInt(txtQoh.getText()));
+
+
+        try {
+            String resp = itemController.updateItem(itemDto);
+            JOptionPane.showMessageDialog(this, resp);
+
+            loadTable();
+            clear();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    private void deleteItem() {
+        try {
+            String resp = itemController.deleteItem(txtCode.getText());
+            JOptionPane.showMessageDialog(this, resp);
+
+            loadTable();
+            clear();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
