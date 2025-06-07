@@ -108,6 +108,11 @@ public class ItemForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblItemMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblItem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -193,6 +198,10 @@ public class ItemForm extends javax.swing.JFrame {
         saveItem();
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void tblItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblItemMouseClicked
+        searchItem();
+    }//GEN-LAST:event_tblItemMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -232,6 +241,7 @@ public class ItemForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, resp);
             
             loadTable();
+            clear();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -254,6 +264,29 @@ public class ItemForm extends javax.swing.JFrame {
                 
                 dtm.addRow(rowData);
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void clear() {
+        txtCode.setText("");
+        txtDesc.setText("");
+        txtPack.setText("");
+        txtQoh.setText("");
+        txtUnit.setText("");
+    }
+
+    private void searchItem() {
+        String itemCode = (String) tblItem.getValueAt(tblItem.getSelectedRow(), 0);
+        try {
+            ItemDto itemDto = itemController.getItem(itemCode);
+            txtCode.setText(itemDto.getCode());
+            txtDesc.setText(itemDto.getDesc());
+            txtPack.setText(itemDto.getPack());
+            txtQoh.setText(Integer.toString(itemDto.getQoh()));
+            txtUnit.setText(Double.toString(itemDto.getUnitPrice()));
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
