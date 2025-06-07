@@ -5,6 +5,7 @@
 package edu.ijse.mvc;
 
 import edu.ijse.mvc.view.ItemForm;
+import edu.ijse.mvc.view.OrderForm;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new ItemForm().setVisible(true);
+        new OrderForm().setVisible(true);
     }
     
 }
