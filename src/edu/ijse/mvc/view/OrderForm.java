@@ -8,7 +8,10 @@ import edu.ijse.mvc.controller.CustomerController;
 import edu.ijse.mvc.controller.ItemController;
 import edu.ijse.mvc.dto.CustomerDto;
 import edu.ijse.mvc.dto.ItemDto;
+import edu.ijse.mvc.dto.OrderDetailDto;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,12 +20,15 @@ import javax.swing.JOptionPane;
 public class OrderForm extends javax.swing.JFrame {
     private CustomerController customerController = new CustomerController();
     private ItemController itemController = new ItemController();
+    
+    private ArrayList<OrderDetailDto> orderDetailDtos = new ArrayList<>();
 
     /**
      * Creates new form OrderForm
      */
     public OrderForm() {
         initComponents();
+        initTable();
     }
 
     /**
@@ -104,6 +110,11 @@ public class OrderForm extends javax.swing.JFrame {
         txtDiscount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         btnAddToTable.setText("Add");
+        btnAddToTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddToTableActionPerformed(evt);
+            }
+        });
 
         tblCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -212,6 +223,10 @@ public class OrderForm extends javax.swing.JFrame {
         searchItem();
     }//GEN-LAST:event_btnSearchItemActionPerformed
 
+    private void btnAddToTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToTableActionPerformed
+        addToCart();
+    }//GEN-LAST:event_btnAddToTableActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -294,5 +309,37 @@ public class OrderForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
             
         }
+    }
+
+    private void initTable() {
+        String[] columns = {"Item Code", "Qty", "Discount"};
+        DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tblCart.setModel(dtm);
+    }
+
+    private void addToCart() {
+        OrderDetailDto orderDetailDto = new OrderDetailDto();
+        orderDetailDto.setDiscount(Integer.parseInt(txtDiscount.getText()));
+        orderDetailDto.setQty(Integer.parseInt(txtQty.getText()));
+        orderDetailDto.setItemCode(txtItemCode.getText());
+        
+        orderDetailDtos.add(orderDetailDto);
+        
+        DefaultTableModel dtm = (DefaultTableModel) tblCart.getModel();
+        Object[] rowData = {orderDetailDto.getItemCode(), orderDetailDto.getQty(), orderDetailDto.getDiscount()};
+        dtm.addRow(rowData);
+        
+        clearItem();
+    }
+
+    private void clearItem() {
+        txtItemCode.setText("");
+        txtDiscount.setText("");
+        txtQty.setText("");
+        lblItemData.setText("");
     }
 }
