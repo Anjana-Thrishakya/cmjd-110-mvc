@@ -4,11 +4,19 @@
  */
 package edu.ijse.mvc.view;
 
+import edu.ijse.mvc.controller.CustomerController;
+import edu.ijse.mvc.controller.ItemController;
+import edu.ijse.mvc.dto.CustomerDto;
+import edu.ijse.mvc.dto.ItemDto;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Anjana
  */
 public class OrderForm extends javax.swing.JFrame {
+    private CustomerController customerController = new CustomerController();
+    private ItemController itemController = new ItemController();
 
     /**
      * Creates new form OrderForm
@@ -63,6 +71,11 @@ public class OrderForm extends javax.swing.JFrame {
         txtCustId.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         btnCustSearch.setText("Search");
+        btnCustSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCustSearchActionPerformed(evt);
+            }
+        });
 
         lblCustData.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
@@ -72,6 +85,11 @@ public class OrderForm extends javax.swing.JFrame {
         txtItemCode.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         btnSearchItem.setText("Search");
+        btnSearchItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchItemActionPerformed(evt);
+            }
+        });
 
         lblItemData.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
@@ -186,6 +204,14 @@ public class OrderForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCustSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustSearchActionPerformed
+        searchCustomer();
+    }//GEN-LAST:event_btnCustSearchActionPerformed
+
+    private void btnSearchItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchItemActionPerformed
+        searchItem();
+    }//GEN-LAST:event_btnSearchItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,4 +268,31 @@ public class OrderForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtItemCode;
     private javax.swing.JTextField txtQty;
     // End of variables declaration//GEN-END:variables
+
+    private void searchCustomer() {
+        try {
+            CustomerDto customerDto = customerController.getCustomer(txtCustId.getText());
+            if(customerDto != null){
+                lblCustData.setText(customerDto.getTitle() + " " + customerDto.getName());
+            } else {
+                lblCustData.setText("Customer Not Found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void searchItem() {
+        try {
+            ItemDto itemDto = itemController.getItem(txtItemCode.getText());
+            if(itemDto != null){
+                lblItemData.setText(itemDto.getDesc() + " | " + itemDto.getPack() + " " + itemDto.getQoh() + " | " + itemDto.getUnitPrice());
+            } else {
+                lblItemData.setText("Item Not Found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            
+        }
+    }
 }
