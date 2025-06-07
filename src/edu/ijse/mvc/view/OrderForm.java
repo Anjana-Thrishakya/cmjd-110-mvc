@@ -51,7 +51,7 @@ public class OrderForm extends javax.swing.JFrame {
         txtDiscount = new javax.swing.JTextField();
         btnAddToTable = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCart = new javax.swing.JTable();
         btnPlaceOrder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -105,7 +105,7 @@ public class OrderForm extends javax.swing.JFrame {
 
         btnAddToTable.setText("Add");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -116,7 +116,7 @@ public class OrderForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCart);
 
         btnPlaceOrder.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnPlaceOrder.setText("Place Order");
@@ -253,7 +253,6 @@ public class OrderForm extends javax.swing.JFrame {
     private javax.swing.JButton btnPlaceOrder;
     private javax.swing.JButton btnSearchItem;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCustData;
     private javax.swing.JLabel lblCustId;
     private javax.swing.JLabel lblDiscount;
@@ -262,6 +261,7 @@ public class OrderForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblItem;
     private javax.swing.JLabel lblItemData;
     private javax.swing.JLabel lblQty;
+    private javax.swing.JTable tblCart;
     private javax.swing.JTextField txtCustId;
     private javax.swing.JTextField txtDiscount;
     private javax.swing.JTextField txtId;
