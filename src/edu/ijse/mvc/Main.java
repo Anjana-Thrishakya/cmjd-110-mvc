@@ -4,8 +4,7 @@
  */
 package edu.ijse.mvc;
 
-import edu.ijse.mvc.db.DBConnection;
-import java.sql.SQLException;
+import edu.ijse.mvc.view.ItemForm;
 
 /**
  *
@@ -16,8 +15,8 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        DBConnection.getInstance().getConnection();
+    public static void main(String[] args) {
+        new ItemForm().setVisible(true);
     }
     
 }
