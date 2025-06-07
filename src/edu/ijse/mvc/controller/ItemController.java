@@ -6,6 +6,7 @@ package edu.ijse.mvc.controller;
 
 import edu.ijse.mvc.dto.ItemDto;
 import edu.ijse.mvc.model.ItemModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,5 +18,21 @@ public class ItemController {
     
     public String saveItem(ItemDto itemDto) throws Exception{
         return itemModel.saveItem(itemDto);
+    }
+    
+    public String updateItem(ItemDto itemDto) throws Exception{
+        return itemModel.updateItem(itemDto);
+    }
+    
+    public String deleteItem(String itemCode) throws Exception{
+        return itemModel.deleteItem(itemCode);
+    }
+    
+    public ItemDto getItem(String itemCode) throws Exception{
+        return itemModel.getItem(itemCode);
+    }
+    
+    public ArrayList<ItemDto> getAll() throws Exception{
+        return itemModel.getAll();
     }
 }
