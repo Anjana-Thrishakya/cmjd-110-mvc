@@ -5,6 +5,7 @@
 package edu.ijse.mvc.controller;
 
 import edu.ijse.mvc.dto.ItemDto;
+import edu.ijse.mvc.model.ItemModel;
 
 /**
  *
@@ -12,8 +13,9 @@ import edu.ijse.mvc.dto.ItemDto;
  */
 public class ItemController {
     
+    private ItemModel itemModel = new ItemModel();
     
-    public String saveItem(ItemDto itemDto){
-        return "Success";
+    public String saveItem(ItemDto itemDto) throws Exception{
+        return itemModel.saveItem(itemDto);
     }
 }
